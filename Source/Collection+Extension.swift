@@ -13,3 +13,9 @@ extension Collection where Element: Comparable {
         return elements.allSatisfy { self.contains($0) }
     }
 }
+
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
