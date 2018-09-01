@@ -1,4 +1,4 @@
 module NayukiQR [system][extern_c] {
-    header "nayuki-QR-Code-Generator/c/qrcodegen.h"
+    header "Source/QRCode.h"
     export *
 }
