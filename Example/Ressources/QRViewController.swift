@@ -46,6 +46,7 @@ extension QRViewController {
     }
     private func setupView() {
         updateSwitchUI()
+        updateModuleSpacingUI()
     }
 }
 
@@ -79,6 +80,8 @@ extension QRViewController {
                               color: color,
                               errorCorrectionLevel: errorCorrectionLevel)
         
+        //need to re-compute the maximum possible module spacing in percent
+        computeMaximumPossibleModuleSpacingInPercent()
     }
     
     private func updateQRImage() {
@@ -168,5 +171,26 @@ extension QRViewController: UIImagePickerControllerDelegate, UINavigationControl
         
         //dismiss
         picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+//MARK: - module spacing settings
+extension QRViewController {
+    @IBAction func moduleSpacingSliderValueChanged(_ sender: UISlider) {
+        updateModuleSpacingUI()
+    }
+    
+    private func updateModuleSpacingUI() {
+        //update the module spacing label
+        let currentSpacingInPercent = moduleSpacingSlider.value*100
+        
+        moduleSpacingLabel.text = String(format: "%.3f%%", currentSpacingInPercent)
+    }
+    
+    private func computeMaximumPossibleModuleSpacingInPercent() {
+        self.moduleSpacingSlider.maximumValue = Float(self.qr.maximumModuleSpacingInPercent-0.00001)
+        
+        updateModuleSpacingUI() //so that label gets refreshed appropriately
     }
 }

@@ -368,3 +368,11 @@ public extension ShapeQRCode {
         }
     }
 }
+
+
+//MARK: - maximum module spacing
+public extension ShapeQRCode {
+    public var maximumModuleSpacingInPercent: CGFloat {
+        return 1.0/CGFloat(qr.size)
+    }
+}
