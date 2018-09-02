@@ -194,3 +194,11 @@ extension QRViewController {
         updateModuleSpacingUI() //so that label gets refreshed appropriately
     }
 }
+
+
+//MARK: - qr text textfield
+extension QRViewController {
+    @IBAction func returnButtonTapped(_ sender: UITextField) {
+        sender.resignFirstResponder()
+    }
+}

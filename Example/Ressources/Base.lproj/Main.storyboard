@@ -30,8 +30,9 @@
                                         <rect key="frame" x="0.0" y="207" width="343" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
+                                            <action selector="returnButtonTapped:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="3rN-u4-JTS"/>
                                             <action selector="valueChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="rOh-AM-f4W"/>
                                         </connections>
                                     </textField>
