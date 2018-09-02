@@ -13,3 +13,11 @@ extension RangeExpression {
         return elements.allSatisfy { self.contains($0) }
     }
 }
+
+extension ClosedRange {
+    func clamp(_ value : Bound) -> Bound {
+        return lowerBound > value ? lowerBound
+            : upperBound < value ? upperBound
+            : value
+    }
+}

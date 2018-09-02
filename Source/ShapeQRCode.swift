@@ -59,6 +59,61 @@ public struct ShapeQRCode {
 }
 
 //MARK: - drawing QR code
+extension ShapeQRCode {
+    enum TransparencyDetectionMode {
+        ///may be more appropriate for most cases
+        case perfect
+        ///may be faster in some cases
+        case random
+    }
+}
+
+//NOTE: https://bugs.swift.org/browse/SR-631
+extension CGContext.PixelData {
+    ///Use this method to extract information about the transparency values of a pixel-data snapshot
+    func isFullTransparent(inRect rect: CGRect,
+                           usingPixelsPerPointValue pixelsPerPoint: CGFloat,
+                           withTransparencyDetectionMode transparencyDetectionMode: ShapeQRCode.TransparencyDetectionMode = .perfect) -> Bool {
+        //the number of pixels in width covered by the rect
+        let pixelsInWidth = Int(rect.width*pixelsPerPoint)
+        let pixelsInHeight = Int(rect.height*pixelsPerPoint)
+        
+        //differ between the different methods
+        switch transparencyDetectionMode {
+        case .random:
+            //compute the upper bound of pixels in the rect
+            let pixelsInRect = pixelsInWidth*pixelsInHeight
+            
+            for _ in 0..<((20...50).clamp(pixelsInRect)) {
+                let randomPoint = rect.randomPoint()
+                
+                //convert point to pixel
+                let pixelX = UInt(randomPoint.x*pixelsPerPoint)
+                let pixelY = UInt(randomPoint.y*pixelsPerPoint)
+                
+                if !self.isTransparent(pixelAtX: pixelX, y: pixelY) {
+                    return false
+                }
+            }
+            
+            return true //assume it is full transparent, because by random we haven't found any intransparent pixel
+        case .perfect:
+            let originPixelIndexX = Int(rect.origin.x*pixelsPerPoint)
+            let originPixelIndexY = Int(rect.origin.y*pixelsPerPoint)
+            //iterate over all pixels in the pixelData
+            for x in originPixelIndexX..<originPixelIndexX+pixelsInWidth {
+                for y in originPixelIndexY..<originPixelIndexY+pixelsInHeight {
+                    if !self.isTransparent(pixelAtX: UInt(x), y: UInt(y)) {
+                        return false
+                    }
+                }
+            }
+            
+            return true
+        }
+    }
+}
+
 public extension ShapeQRCode {
     
     private func image(fromRenderer renderer: UIGraphicsImageRenderer) -> UIImage {
@@ -76,14 +131,15 @@ public extension ShapeQRCode {
         }
         
         
+        
         //render the image and return it
         ///NOTE: UIKit configures the cgContext of the renderer in a way that it draws from top left corner, not from bottom left!!!
         return renderer.image { (ctx) in
             //draw image
             containedImageDrawer?(ctx)
             
-            //NOTE: need to re-orient the image, because of the coordinate system used by the context (origin top left) doesn't match the one used by CIImage (origin bottom left) -> I know, this is a quick solution, not very efficient, but it looks much cleaner in code... TODO: more efficiency
-            let drawnJustQRImage = ctx.cgContext.makeImage()?.asCIImage().oriented(.downMirrored)
+            //The pixel data of the context that we're drawing in (required for efficient computation of where to draw the qr modules)
+            let pixelData = ctx.cgContext.pixelData()
             
             //draw modules
             for x in 0..<qr.size {
@@ -97,20 +153,17 @@ public extension ShapeQRCode {
                     
                     ///The number of pixels for one point (it is a scale in the CGContext, because this simplifies drawing)
                     let pixelsPerPoint = ctx.cgContext.userSpaceToDeviceSpaceTransform.a
-                    if let image = self.image, let drawnJustQRImage = drawnJustQRImage{
+                    if let image = self.image, let pixelData = pixelData { //if there's an image to draw contained in the qr code
                         let containedImageRect = self.rect(ofContainedImage: image, inBounds: bounds)
                         
-                        
-//                        if containedImageRect.intersects(moduleRect) {
-//                            DebugStopwatch.start()
-//                            if !drawnJustQRImage.transparent(inRect: CGRect(x: moduleRect.origin.x*pixelsPerPoint,
-//                                                                         y: moduleRect.origin.y*pixelsPerPoint,
-//                                                                         width: moduleRect.size.width*pixelsPerPoint,
-//                                                                         height: moduleRect.size.height*pixelsPerPoint)) {
-//                                continue //don't draw anything...
-//                            }
-//                            DebugStopwatch.pause()
-//                        }
+                        if containedImageRect.intersects(moduleRect) {
+                            
+                            if !pixelData.isFullTransparent(inRect: moduleRect,
+                                                           usingPixelsPerPointValue: pixelsPerPoint,
+                                                           withTransparencyDetectionMode: .perfect) {
+                                continue
+                            }
+                        }
                         
                     }
                     
@@ -118,9 +171,6 @@ public extension ShapeQRCode {
                     moduleDrawer(ctx, (x,y))
                 }
             }
-            
-            DebugStopwatch.printRunningTimeTime()
-            DebugStopwatch.reset()
         }
     }
     
@@ -147,11 +197,10 @@ public extension ShapeQRCode {
     ///Returns a UIImage with a width and height (as specified in the length parameter) in POINTS.
     ///The resulting image may have more pixels than points, because the scale-factor (how many pixels we use for one point) is determined automatically by the device's hardware specifications.
     ///NOTE: it is possible that due to antialiasing, there are grey lines between the different modules of the QR code. to prevent antialiasing, use an appropriate size that remove antialiasing. -> TODO: add a method that automatically adjusts the length in pixels so that antialiasing-effect isn't visible.
+    ///NOTE: encoding speed also depends on how much transparent areas the containedImage has (few transparent areas <-> faster ; much transparent areas <-> slower)
     public func image(withLength length: CGFloat = 1000.0,
                       withIntegrityCheck integrityCheck: Bool = true,
                       errorCorrectionOptimization: Bool = true) throws -> UIImage {
-//        DebugStopwatch.start()
-        
         
         //create the image
         let image = self.image(withLength: length)
@@ -168,7 +217,8 @@ public extension ShapeQRCode {
                     while let currentErrorCorrectionLevel = currentShapeQRCodeInTest.errorCorrectionLevel.higher {
                         currentShapeQRCodeInTest.errorCorrectionLevel = currentErrorCorrectionLevel
                         
-                        if let newImage = try? currentShapeQRCodeInTest.image(withLength: length,
+                        if let newImage = try?
+                            currentShapeQRCodeInTest.image(withLength: length,
                                                                          withIntegrityCheck: true,
                                                                          errorCorrectionOptimization: false) {
                             return newImage
@@ -185,11 +235,6 @@ public extension ShapeQRCode {
             }
             
         }
-        
-        
-//        DebugStopwatch.pause()
-//        DebugStopwatch.printRunningTimeTime(withFormat: .seconds)
-//        DebugStopwatch.reset()
         
         //return the actual qr code image
         return image
@@ -298,6 +343,8 @@ private extension ShapeQRCode {
             
             //draw the uiimage using the method of UIKit, because this way we support resizing UIImages that can preserve vector data, because the UIImage class therefore takes care about appropriate resizing and orientation
             containedImage.rawImage.draw(in: containedImageRect)
+            
+            //NOTE: DEPENDING ON THE UIIMAGE RENDERED, THE RENDERING ABOVE MAY TAKE A SIGNIFICANTLY LARGE AMOUNT OF TIME – THIS CAN REALLY SLOW DOWN RENDERING, ESPECIALLY REALTIME ON THE MAIN THREAD - CONSIDER USING AN OPTIMIZED IMAGE FOR THE DEVICE WITH LESS TRANSPARENCY
         }
     }
 }
