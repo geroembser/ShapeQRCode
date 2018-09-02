@@ -423,3 +423,32 @@ public extension ShapeQRCode {
         return 1.0/CGFloat(qr.size)
     }
 }
+
+
+//MARK: - rendering asynchronously
+public extension ShapeQRCode {
+    static let renderingQueue = DispatchQueue(label: "com.geroembser.ShapeQRCode.RenderingQueue", qos: .userInitiated, attributes: .concurrent)
+    
+    public typealias ShapeQRCodeRenderingCompletionHandler = (UIImage?, Error?) -> Void
+    ///Renders the ShapeQRCode as a UIImage on a background thread and calls the given closure when completed (with an error or the sucessfully rendered image)
+    public func asyncImage(withLength length: CGFloat = 1000.0,
+                           withIntegrityCheck integrityCheck: Bool = true,
+                           errorCorrectionOptimization: Bool = true,
+                           withCompletionHandler completionHandler: @escaping ShapeQRCodeRenderingCompletionHandler) {
+        ShapeQRCode.renderingQueue.async {
+            do {
+                //render the image
+                let image = try self.image(withLength: length,
+                                           withIntegrityCheck: integrityCheck,
+                                           errorCorrectionOptimization: errorCorrectionOptimization)
+                
+                
+                completionHandler(image, nil)
+            }
+            catch (let error) {
+                //error
+                completionHandler(nil, error)
+            }
+        }
+    }
+}
