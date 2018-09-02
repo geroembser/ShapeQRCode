@@ -83,7 +83,7 @@ public extension ShapeQRCode {
             containedImageDrawer?(ctx)
             
             //NOTE: need to re-orient the image, because of the coordinate system used by the context (origin top left) doesn't match the one used by CIImage (origin bottom left) -> I know, this is a quick solution, not very efficient, but it looks much cleaner in code... TODO: more efficiency
-            let drawnJustQRImage = ctx.cgContext.makeImage()?.asCIImage().oriented(.down)
+            let drawnJustQRImage = ctx.cgContext.makeImage()?.asCIImage().oriented(.downMirrored)
             
             //draw modules
             for x in 0..<qr.size {
