@@ -101,13 +101,16 @@ public extension ShapeQRCode {
                         let containedImageRect = self.rect(ofContainedImage: image, inBounds: bounds)
                         
                         
-                        if containedImageRect.intersects(moduleRect),
-                            !drawnJustQRImage.transparent(inRect: CGRect(x: moduleRect.origin.x*pixelsPerPoint,
-                                                                         y: moduleRect.origin.y*pixelsPerPoint,
-                                                                         width: moduleRect.size.width*pixelsPerPoint,
-                                                                         height: moduleRect.size.height*pixelsPerPoint)) {
-                            continue //don't draw anything...
-                        }
+//                        if containedImageRect.intersects(moduleRect) {
+//                            DebugStopwatch.start()
+//                            if !drawnJustQRImage.transparent(inRect: CGRect(x: moduleRect.origin.x*pixelsPerPoint,
+//                                                                         y: moduleRect.origin.y*pixelsPerPoint,
+//                                                                         width: moduleRect.size.width*pixelsPerPoint,
+//                                                                         height: moduleRect.size.height*pixelsPerPoint)) {
+//                                continue //don't draw anything...
+//                            }
+//                            DebugStopwatch.pause()
+//                        }
                         
                     }
                     
@@ -115,6 +118,9 @@ public extension ShapeQRCode {
                     moduleDrawer(ctx, (x,y))
                 }
             }
+            
+            DebugStopwatch.printRunningTimeTime()
+            DebugStopwatch.reset()
         }
     }
     
@@ -144,6 +150,9 @@ public extension ShapeQRCode {
     public func image(withLength length: CGFloat = 1000.0,
                       withIntegrityCheck integrityCheck: Bool = true,
                       errorCorrectionOptimization: Bool = true) throws -> UIImage {
+//        DebugStopwatch.start()
+        
+        
         //create the image
         let image = self.image(withLength: length)
         
@@ -177,6 +186,10 @@ public extension ShapeQRCode {
             
         }
         
+        
+//        DebugStopwatch.pause()
+//        DebugStopwatch.printRunningTimeTime(withFormat: .seconds)
+//        DebugStopwatch.reset()
         
         //return the actual qr code image
         return image
@@ -312,7 +325,7 @@ public extension ShapeQRCode {
 
 //MARK: - different shapes
 public extension ShapeQRCode {
-    public enum Shape {
+    public enum Shape: CaseIterable {
         case circle
         case square
     }
