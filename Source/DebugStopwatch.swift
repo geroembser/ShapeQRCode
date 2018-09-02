@@ -43,6 +43,10 @@ public extension DebugStopwatch {
     }
     
     public static func pause() {
+        guard running else {
+            return //already paused
+        }
+        
         //running -> false
         running = false
         
