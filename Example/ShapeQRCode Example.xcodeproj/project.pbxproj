@@ -121,8 +121,6 @@
 			children = (
 				6B85290A2129DD8200DCBD58 /* Main.storyboard */,
 				6B85290D2129DD8300DCBD58 /* Assets.xcassets */,
-				6B2D1AA8213B396A00D15441 /* QRViewController.swift */,
-				6B796099213CB53000E33C07 /* RenderingOperation.swift */,
 				6B85290F2129DD8300DCBD58 /* LaunchScreen.storyboard */,
 				6B8529122129DD8300DCBD58 /* Info.plist */,
 			);
@@ -151,6 +149,8 @@
 			isa = PBXGroup;
 			children = (
 				6B8529062129DD8200DCBD58 /* AppDelegate.swift */,
+				6B2D1AA8213B396A00D15441 /* QRViewController.swift */,
+				6B796099213CB53000E33C07 /* RenderingOperation.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
