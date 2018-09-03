@@ -154,8 +154,37 @@
                                                                     </switch>
                                                                 </subviews>
                                                             </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="xmP-8G-6dn">
+                                                                <rect key="frame" x="0.0" y="38" width="237" height="31"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybu-ZB-sXQ">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="31" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="31" id="mAS-jv-naw"/>
+                                                                        </constraints>
+                                                                        <connections>
+                                                                            <action selector="showOptimizationInformation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sYt-b0-qgV"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="optimize" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTe-7y-Kp2">
+                                                                        <rect key="frame" x="41" y="0.0" width="137" height="31"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zYY-YK-m67">
+                                                                        <rect key="frame" x="188" y="0.0" width="51" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="49" id="D6t-Qm-ktw"/>
+                                                                        </constraints>
+                                                                        <connections>
+                                                                            <action selector="optimizationSwitchValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="FBv-4K-dQS"/>
+                                                                        </connections>
+                                                                    </switch>
+                                                                </subviews>
+                                                            </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGt-hV-C9u">
-                                                                <rect key="frame" x="0.0" y="38" width="237" height="130"/>
+                                                                <rect key="frame" x="0.0" y="76" width="237" height="92"/>
                                                                 <state key="normal" title="select image inside QR code"/>
                                                                 <connections>
                                                                     <action selector="selectContainedImageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vAk-il-2RJ"/>
@@ -258,6 +287,7 @@
                         <outlet property="errorCorrectionLevelSegmentedControl" destination="DSt-cR-wlF" id="QI2-RO-Ze7"/>
                         <outlet property="moduleSpacingLabel" destination="Jhg-g7-6gw" id="bYn-Gd-PaB"/>
                         <outlet property="moduleSpacingSlider" destination="Cps-J5-KBK" id="t9T-le-fKe"/>
+                        <outlet property="optimizationSwitch" destination="zYY-YK-m67" id="kma-6P-Gte"/>
                         <outlet property="qrImageView" destination="ECd-1A-3lo" id="mlC-vz-RaQ"/>
                         <outlet property="renderActivityIndicator" destination="y35-bV-K1I" id="KLp-xz-6kJ"/>
                         <outlet property="selectContainedImageButton" destination="zGt-hV-C9u" id="xPH-tE-wlx"/>

@@ -31,6 +31,9 @@ class QRViewController: UIViewController {
     
     @IBOutlet var transparencyDetectionSwitch: UISwitch!
     
+    @IBOutlet var optimizationSwitch: UISwitch!
+    
+    
     //MARK: - actions
     @IBAction func valueChanged(_ sender: Any) {
         updateQRAndQRImage()
@@ -229,7 +232,7 @@ extension QRViewController {
         let renderingOperation = RenderingOperation(withShapeQRCode: self.qr,
                                                     ofLength: length,
                                                     usingIntegrityCheck: true,
-                                                    withErrorCorrectionOptimization: false) { (image, error) in
+                                                    withErrorCorrectionOptimization: optimizationSwitch.isOn) { (image, error) in
                                                         DispatchQueue.main.async {
                                                             //indicate that rendering stopped
                                                             self.stopIndicatingRendering()
@@ -297,5 +300,21 @@ extension QRViewController {
 extension QRViewController {
     @IBAction func transparencyDetectionSwitchValueChanged(_ sender: UISwitch) {
         updateQRAndQRImage()
+    }
+}
+
+//MARK: - optimization of rendered qr codes (settings)
+extension QRViewController {
+    @IBAction func optimizationSwitchValueChanged(_ sender: UISwitch) {
+        updateQRAndQRImage()
+    }
+    
+    @IBAction func showOptimizationInformation(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Optimize QR code for readabillity",
+                                      message: "If turned on, the rendered QR code is automatically optimized for improved readabillity. I. e. decreasing the image in the middle and increasing the error correction level. \n\nNote: If optimization is turned on, the rendered QR code can have other properties than the specified properties visible in the UI. E.g. the error correction level of the rendered QR code may be 'high', even if the UI states it is 'low'.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
     }
 }
