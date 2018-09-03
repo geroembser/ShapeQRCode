@@ -153,14 +153,18 @@ public extension ShapeQRCode {
                     
                     ///The number of pixels for one point (it is a scale in the CGContext, because this simplifies drawing)
                     let pixelsPerPoint = ctx.cgContext.userSpaceToDeviceSpaceTransform.a
-                    if let image = self.image, let pixelData = pixelData { //if there's an image to draw contained in the qr code
+                    if let image = self.image { //if there's an image to draw contained in the qr code
                         let containedImageRect = self.rect(ofContainedImage: image, inBounds: bounds)
                         
                         if containedImageRect.intersects(moduleRect) {
+                            if !image.isTransparencyDetectionOn {
+                                continue //no need to check for transparency
+                            }
                             
-                            if !pixelData.isFullTransparent(inRect: moduleRect,
-                                                           usingPixelsPerPointValue: pixelsPerPoint,
-                                                           withTransparencyDetectionMode: .perfect) {
+                            if let pixelData = pixelData,
+                                !pixelData.isFullTransparent(inRect: moduleRect,
+                                                             usingPixelsPerPointValue: pixelsPerPoint,
+                                                             withTransparencyDetectionMode: .perfect) {
                                 continue
                             }
                         }
@@ -358,11 +362,14 @@ public extension ShapeQRCode {
     public struct Image {
         let sizeInPercent: CGSize
         let rawImage: UIImage
+        let isTransparencyDetectionOn: Bool
         
         public init(withUIImage rawImage: UIImage,
                     width widthPercent: CGFloat,
-                    height heightPercent: CGFloat) throws {
+                    height heightPercent: CGFloat,
+                    transparencyDetectionEnabled transparencyDetection: Bool = true) throws {
             self.rawImage = rawImage
+            self.isTransparencyDetectionOn = transparencyDetection
             
             //make sure the width and height values are in the allowed range
             guard (CGFloat(0.0)...CGFloat(1.0)).contains([widthPercent, heightPercent]) else {
