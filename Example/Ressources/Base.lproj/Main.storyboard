@@ -98,14 +98,14 @@
                                                 <rect key="frame" x="0.0" y="279" width="343" height="20.333333333333314"/>
                                                 <subviews>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.002" minValue="0.0" maxValue="0.050000000000000003" translatesAutoresizingMaskIntoConstraints="NO" id="Cps-J5-KBK">
-                                                        <rect key="frame" x="-2" y="0.0" width="297.66666666666669" height="21.333333333333332"/>
+                                                        <rect key="frame" x="-2" y="0.0" width="285.66666666666669" height="21.333333333333332"/>
                                                         <connections>
                                                             <action selector="moduleSpacingSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="2gu-Mw-vIp"/>
                                                             <action selector="valueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="wLZ-hK-ZnO"/>
                                                         </connections>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0,002%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jhg-g7-6gw">
-                                                        <rect key="frame" x="296.66666666666669" y="0.0" width="46.333333333333314" height="20.333333333333332"/>
+                                                        <rect key="frame" x="284.66666666666669" y="0.0" width="58.333333333333314" height="20.333333333333332"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="t7e-V1-T82"/>
                                                         </constraints>
@@ -134,15 +134,35 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="IPC-I6-EaF">
                                                         <rect key="frame" x="106" y="0.0" width="237" height="332.66666666666669"/>
                                                         <subviews>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="A4k-Qq-asf">
+                                                                <rect key="frame" x="0.0" y="0.0" width="237" height="31"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="transparency detection" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QIM-GP-Jth">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="178" height="31"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <nil key="textColor"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4vf-rc-Bmu">
+                                                                        <rect key="frame" x="188" y="0.0" width="51" height="31"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="49" id="Yev-C9-pqz"/>
+                                                                        </constraints>
+                                                                        <connections>
+                                                                            <action selector="transparencyDetectionSwitchValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Ipo-YY-nio"/>
+                                                                        </connections>
+                                                                    </switch>
+                                                                </subviews>
+                                                            </stackView>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zGt-hV-C9u">
-                                                                <rect key="frame" x="0.0" y="0.0" width="237" height="160"/>
+                                                                <rect key="frame" x="0.0" y="38" width="237" height="130"/>
                                                                 <state key="normal" title="select image inside QR code"/>
                                                                 <connections>
                                                                     <action selector="selectContainedImageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vAk-il-2RJ"/>
                                                                 </connections>
                                                             </button>
                                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HdO-DG-xqh">
-                                                                <rect key="frame" x="0.0" y="167" width="237" height="31"/>
+                                                                <rect key="frame" x="0.0" y="175.00000000000006" width="237" height="31"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="squared" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUI-jT-19i">
                                                                         <rect key="frame" x="0.0" y="0.0" width="178" height="31"/>
@@ -158,13 +178,6 @@
                                                                     </switch>
                                                                 </subviews>
                                                             </stackView>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rRV-Gp-euf">
-                                                                <rect key="frame" x="0.0" y="205.00000000000006" width="237" height="1"/>
-                                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="1" id="DUO-h2-hOZ"/>
-                                                                </constraints>
-                                                            </view>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="v7J-F2-cud">
                                                                 <rect key="frame" x="0.0" y="213.00000000000006" width="237" height="56.333333333333314"/>
                                                                 <subviews>
@@ -251,6 +264,7 @@
                         <outlet property="shapeSegmentedControl" destination="wCh-9J-MrO" id="YkV-Ma-cyX"/>
                         <outlet property="squareContainedImageSwitch" destination="HB2-z4-Xom" id="a2y-ts-bMa"/>
                         <outlet property="textTextfield" destination="g7C-kO-ccE" id="Zbm-2e-gOA"/>
+                        <outlet property="transparencyDetectionSwitch" destination="4vf-rc-Bmu" id="4TW-KZ-L16"/>
                         <outlet property="warningButton" destination="JdZ-CX-jGV" id="hNZ-5v-ir3"/>
                     </connections>
                 </viewController>

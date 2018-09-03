@@ -29,6 +29,7 @@ class QRViewController: UIViewController {
     @IBOutlet var renderActivityIndicator: UIActivityIndicatorView!
     @IBOutlet var warningButton: UIButton!
     
+    @IBOutlet var transparencyDetectionSwitch: UISwitch!
     
     //MARK: - actions
     @IBAction func valueChanged(_ sender: Any) {
@@ -71,7 +72,8 @@ extension QRViewController {
         if let uiimage = self.containedImageImageView.image {
             image = try? ShapeQRCode.Image(withUIImage: uiimage,
                                         width: CGFloat(containedImageWidthSlider.value),
-                                        height: CGFloat(containedImageHeightSlider.value))
+                                        height: CGFloat(containedImageHeightSlider.value),
+                                        transparencyDetectionEnabled: transparencyDetectionSwitch.isOn)
         }
         else {
             image = nil
@@ -287,5 +289,13 @@ extension QRViewController {
         
         //present...
         present(alert, animated: true, completion: nil)
+    }
+}
+
+
+//MARK: - transparency detection settings
+extension QRViewController {
+    @IBAction func transparencyDetectionSwitchValueChanged(_ sender: UISwitch) {
+        updateQRAndQRImage()
     }
 }
