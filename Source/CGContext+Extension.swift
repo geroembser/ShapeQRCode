@@ -10,7 +10,7 @@ import UIKit
 
 //MARK: - get pixel data of CGContext
 
-extension CGContext {
+extension UIGraphicsImageRendererContext {
     struct PixelData {
         init(withImageWidth imageWidth: Int,
              imageHeight: Int,
@@ -48,8 +48,12 @@ extension CGContext {
     }
 }
 
-extension CGContext {
+extension UIGraphicsImageRendererContext {
     func pixelData() -> PixelData? {
+        //Quick fix, because drawing failed on iPhone 5S, SE etc. because of the CGContext created by the UIGraphicsImageRenderer wasn't a CGBitmapContext and therefore had a height/width value of 0
+        let width = Int(self.format.bounds.width*self.cgContext.userSpaceToDeviceSpaceTransform.a)
+        let height = Int(self.format.bounds.height*self.cgContext.userSpaceToDeviceSpaceTransform.a)
+        
         let dataSize = width * height * 4
         var pixelData = [UInt8](repeating: 0, count: dataSize)
         
@@ -62,7 +66,7 @@ extension CGContext {
                                 space: colorSpace,
                                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         
-        guard let cgImage = self.makeImage() else {
+        guard let cgImage = self.cgContext.makeImage() else {
             return nil
         }
         

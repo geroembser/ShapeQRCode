@@ -69,7 +69,7 @@ extension ShapeQRCode {
 }
 
 //NOTE: https://bugs.swift.org/browse/SR-631
-extension CGContext.PixelData {
+extension UIGraphicsImageRendererContext.PixelData {
     ///Use this method to extract information about the transparency values of a pixel-data snapshot
     func isFullTransparent(inRect rect: CGRect,
                            usingPixelsPerPointValue pixelsPerPoint: CGFloat,
@@ -139,7 +139,7 @@ public extension ShapeQRCode {
             containedImageDrawer?(ctx)
             
             //The pixel data of the context that we're drawing in (required for efficient computation of where to draw the qr modules)
-            let pixelData = ctx.cgContext.pixelData()
+            let pixelData = ctx.pixelData()
             
             //draw modules
             for x in 0..<qr.size {
