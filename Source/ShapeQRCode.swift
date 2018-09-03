@@ -176,7 +176,7 @@ public extension ShapeQRCode {
     
     ///Returns an image that has the size in points as specified by the length parameter
     ///The scale factor determines how many pixels per point
-    private func image(withLength length: CGFloat, scale: CGFloat = UIScreen.main.scale) -> UIImage {
+    public func image(withLength length: CGFloat, scale: CGFloat = UIScreen.main.scale) -> UIImage {
         
         //define the size of the image (in POINTS)
         let size = CGSize(width: length, height: length)
@@ -242,9 +242,6 @@ public extension ShapeQRCode {
         
         //return the actual qr code image
         return image
-    }
-    public func image(withLength length: CGFloat) -> UIImage {
-        return try! image(withLength: length, withIntegrityCheck: false, errorCorrectionOptimization: false)
     }
 }
 
