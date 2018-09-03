@@ -16,7 +16,7 @@
 		6B0437432138708C00E771B3 /* ShapeQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B04358D21377AF900E771B3 /* ShapeQRCode.swift */; };
 		6B04375321387E3800E771B3 /* QRCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B04375121387E3800E771B3 /* QRCode.h */; };
 		6B04375421387E3800E771B3 /* QRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B04375221387E3800E771B3 /* QRCode.m */; };
-		6B0437552138811400E771B3 /* qrcodegen.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B04371B21386EEE00E771B3 /* qrcodegen.c */; };
+		6B0437552138811400E771B3 /* qrcodegen.c in Sources */ = {isa = PBXBuildFile; fileRef = 6B04371B21386EEE00E771B3 /* qrcodegen.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		6B2D1AA2213B0C0300D15441 /* Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AA0213B0BEB00D15441 /* Assert.swift */; };
 		6B2D1AA4213B34CC00D15441 /* ColorMaximumAlphaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AA3213B34CC00D15441 /* ColorMaximumAlphaTests.swift */; };
 		6B2D1AA7213B353400D15441 /* TestImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AA5213B351500D15441 /* TestImages.swift */; };
