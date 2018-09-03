@@ -234,7 +234,40 @@ public extension ShapeQRCode {
                     }
                     
                     //2. try to decrease the image in the middle by various percent-values...
-                    //TODO:...
+                    let minimumWidthHeightScale: CGFloat = 0.1 //minimum image scale supported is 10%
+                    if let img = self.image, img.sizeInPercent.width > minimumWidthHeightScale, img.sizeInPercent.height > minimumWidthHeightScale {
+                        let xRangeOfPercentValues = minimumWidthHeightScale..<(img.sizeInPercent.width)
+                        let yRangeOfPercentValues = minimumWidthHeightScale..<(img.sizeInPercent.height)
+                        
+                        let scaleFactorsX: [CGFloat]
+                        let scaleFactorsY: [CGFloat]
+                        if img.sizeInPercent.width > img.sizeInPercent.height {
+                            //use width as orientation
+                            scaleFactorsX = xRangeOfPercentValues.evenlySpacedSamples(n: 3)
+                            scaleFactorsY = scaleFactorsX.map { $0 * (img.sizeInPercent.height/img.sizeInPercent.width) }
+                        }
+                        else {
+                            //use height as orientation
+                            scaleFactorsY = yRangeOfPercentValues.evenlySpacedSamples(n: 3)
+                            scaleFactorsX = scaleFactorsY.map { $0 * (img.sizeInPercent.width/img.sizeInPercent.height) }
+                        }
+                        
+                        for (xFactor, yFactor) in zip(scaleFactorsX,scaleFactorsY).reversed() {
+                            currentShapeQRCodeInTest.image?.sizeInPercent = CGSize(width: xFactor,
+                                                                                   height: yFactor)
+                            do {
+                                let newImage = try currentShapeQRCodeInTest.image(withLength: length,
+                                                                                  withIntegrityCheck: true,
+                                                                                  errorCorrectionOptimization:  false)
+                                return newImage
+                            }
+                            catch let error as Problem.QRContainedImageEncodingProblem {
+                                optimizedImage = error.unreadableQRImage
+                            }
+                        }
+                    }
+                    
+                    //TODO: try to optimize module spacing
                     
                     //if optimization failed, throw the appropriate error indicating that optimization failed, although we've tried to optimize it
                     throw Problem.QRContainedImageEncodingProblem.unreadableEvenAfterOptimization(unreadableQR: optimizedImage)
@@ -360,7 +393,7 @@ private extension ShapeQRCode {
 //MARK: - images in the QR code
 public extension ShapeQRCode {
     public struct Image {
-        let sizeInPercent: CGSize
+        var sizeInPercent: CGSize
         let rawImage: UIImage
         let isTransparencyDetectionOn: Bool
         

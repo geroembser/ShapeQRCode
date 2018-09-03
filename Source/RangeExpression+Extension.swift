@@ -21,3 +21,22 @@ extension ClosedRange {
             : value
     }
 }
+
+extension Range where Bound: (FloatingPoint & Comparable) {
+    ///Returns n evenly spaced samples from the range – if it isn't possible to generate n evenly spaced samples, it will return the same sample multiple times
+    func evenlySpacedSamples(n: Int) -> [Bound] {
+        let distance = upperBound-lowerBound
+        let sampleDistance = distance/Bound(n)
+        
+        var samples: [Bound] = []
+        for i in 0..<n {
+            let sample = lowerBound+(Bound(i)*sampleDistance)
+            guard sample < upperBound else {
+                return samples
+            }
+            samples += [sample]
+        }
+        
+        return samples
+    }
+}
