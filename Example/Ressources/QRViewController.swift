@@ -54,6 +54,7 @@ extension QRViewController {
     }
     private func setupView() {
         updateSwitchUI()
+        updateContainedImageSizeSliderUI()
         updateModuleSpacingUI()
         updateRenderingIndicatorUI()
         setupWarningUI()
@@ -130,13 +131,17 @@ extension QRViewController {
         }
     }
     
+    private func updateContainedImageSizeSliderUI() {
+        containedImageWidthLabel.text = String(format: "width: %.1f %% (of QR width)", containedImageWidthSlider.value*100)
+        containedImageHeightLabel.text = String(format: "height: %.1f %% (of QR height)", containedImageHeightSlider.value*100)
+    }
+    
     @IBAction func containedImageSizeSliderValueChanged(_ sender: UISlider) {
         if squareContainedImage {
             containedImageHeightSlider.value = containedImageWidthSlider.value
         }
         
-        containedImageWidthLabel.text = String(format: "width: %.1f %% (of QR width)", containedImageWidthSlider.value*100)
-        containedImageHeightLabel.text = String(format: "height: %.1f %% (of QR height)", containedImageHeightSlider.value*100)
+        updateContainedImageSizeSliderUI()
     }
 }
 extension QRViewController {
