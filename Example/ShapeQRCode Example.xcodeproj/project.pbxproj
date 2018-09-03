@@ -10,6 +10,7 @@
 		6B2D1AA9213B396A00D15441 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AA8213B396A00D15441 /* QRViewController.swift */; };
 		6B4DDF1B2134904C001941A7 /* ShapeQRCode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8529422129E48000DCBD58 /* ShapeQRCode.framework */; };
 		6B4DDF1C2134904C001941A7 /* ShapeQRCode.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8529422129E48000DCBD58 /* ShapeQRCode.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6B79609A213CB53000E33C07 /* RenderingOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B796099213CB53000E33C07 /* RenderingOperation.swift */; };
 		6B8529072129DD8200DCBD58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8529062129DD8200DCBD58 /* AppDelegate.swift */; };
 		6B85290C2129DD8200DCBD58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B85290A2129DD8200DCBD58 /* Main.storyboard */; };
 		6B85290E2129DD8300DCBD58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B85290D2129DD8300DCBD58 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		6B2D1AA8213B396A00D15441 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
+		6B796099213CB53000E33C07 /* RenderingOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderingOperation.swift; sourceTree = "<group>"; };
 		6B8529032129DD8200DCBD58 /* ShapeQRCode Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ShapeQRCode Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B8529062129DD8200DCBD58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B85290B2129DD8200DCBD58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				6B85290A2129DD8200DCBD58 /* Main.storyboard */,
 				6B85290D2129DD8300DCBD58 /* Assets.xcassets */,
 				6B2D1AA8213B396A00D15441 /* QRViewController.swift */,
+				6B796099213CB53000E33C07 /* RenderingOperation.swift */,
 				6B85290F2129DD8300DCBD58 /* LaunchScreen.storyboard */,
 				6B8529122129DD8300DCBD58 /* Info.plist */,
 			);
@@ -293,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B8529072129DD8200DCBD58 /* AppDelegate.swift in Sources */,
+				6B79609A213CB53000E33C07 /* RenderingOperation.swift in Sources */,
 				6B2D1AA9213B396A00D15441 /* QRViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

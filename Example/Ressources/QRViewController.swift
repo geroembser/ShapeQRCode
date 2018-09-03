@@ -26,6 +26,10 @@ class QRViewController: UIViewController {
     @IBOutlet var containedImageHeightLabel: UILabel!
     @IBOutlet var squareContainedImageSwitch: UISwitch!
     
+    @IBOutlet var renderActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet var warningButton: UIButton!
+    
+    
     //MARK: - actions
     @IBAction func valueChanged(_ sender: Any) {
         updateQRAndQRImage()
@@ -33,12 +37,16 @@ class QRViewController: UIViewController {
     
     //MARK: - variables
     private var qr: ShapeQRCode!
+    
+    private let renderingQueue = OperationQueue()
 }
 
 //MARK: - view lifecycle
 extension QRViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupRenderingQueue() //FIRST!
         
         setupView()
         
@@ -47,6 +55,8 @@ extension QRViewController {
     private func setupView() {
         updateSwitchUI()
         updateModuleSpacingUI()
+        updateRenderingIndicatorUI()
+        setupWarningUI()
     }
 }
 
@@ -85,23 +95,11 @@ extension QRViewController {
     }
     
     private func updateQRImage() {
-        do {
-            qrImageView.image = try self.qr.image(withLength: qrImageView.frame.size.height,
-                                                  withIntegrityCheck: false,
-                                                  errorCorrectionOptimization: false)
-        }
-        catch {
-            //show an error
-            let alert = UIAlertController(title: "Error",
-                                          message: "The QR code with the specified properties is unreadable for devices! Consider other properties!",
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
-
-            //present...
-            present(alert, animated: true, completion: nil)
-            
-            //TODO: maybe reset?!
-        }
+        //we're doing it async now
+        self.updateQRImageAsync()
+        
+        //Instead you could also do it much more simpler, but this may break the UI for some codes, configurations or contained images
+        //qrImageView.image = self.qr.image(withLength: qrImageView.frame.size.height)
     }
     private func updateQRAndQRImage() {
         updateQR()
@@ -200,5 +198,89 @@ extension QRViewController {
 extension QRViewController {
     @IBAction func returnButtonTapped(_ sender: UITextField) {
         sender.resignFirstResponder()
+    }
+}
+
+//MARK: - async rendering
+extension QRViewController {
+    private var isRendering: Bool {
+        return !renderingQueue.isSuspended
+    }
+    private func setupRenderingQueue() {
+        renderingQueue.maxConcurrentOperationCount = 1
+        renderingQueue.qualityOfService = .userInitiated
+    }
+    private func updateQRImageAsync() {
+        //first, cancel all running rendering operations
+        renderingQueue.cancelAllOperations()
+        
+        //indicate that we're rendering
+        indicateRendering()
+        
+        //create new rendering operation
+        let length = self.qrImageView.frame.size.height
+        let renderingOperation = RenderingOperation(withShapeQRCode: self.qr,
+                                                    ofLength: length,
+                                                    usingIntegrityCheck: true,
+                                                    withErrorCorrectionOptimization: false) { (image, error) in
+                                                        DispatchQueue.main.async {
+                                                            //indicate that rendering stopped
+                                                            self.stopIndicatingRendering()
+                                                            
+                                                            if error != nil {
+                                                                self.showWarning()
+                                                            }
+                                                            else {
+                                                                self.hideWarning()
+                                                            }
+                                                            
+                                                            self.qrImageView.image = image
+                                                        }
+        }
+        
+        //add the rendering operation 
+        renderingQueue.addOperation(renderingOperation)
+    }
+}
+
+//MARK: - rendering indicator
+extension QRViewController {
+    private func updateRenderingIndicatorUI() {
+        if isRendering {
+            indicateRendering()
+        }
+        else {
+            stopIndicatingRendering()
+        }
+    }
+    private func indicateRendering() {
+        renderActivityIndicator.startAnimating()
+    }
+    private func stopIndicatingRendering() {
+        renderActivityIndicator.stopAnimating()
+    }
+}
+//MARK: - error handling
+extension QRViewController {
+    private func setupWarningUI() {
+        hideWarning()
+    }
+    
+    private func showWarning() {
+        warningButton.isHidden = false
+    }
+    private func hideWarning() {
+        warningButton.isHidden = true
+    }
+    
+    @IBAction func warningButtonTapped(_ sender: UIButton) {
+        //show an alert that displays an information
+        let alert = UIAlertController(title: "📸 Warning",
+                                      message: "The QR code with the specified properties may be unreadable or hard readable for devices! Consider other properties!",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
+        
+        //present...
+        present(alert, animated: true, completion: nil)
     }
 }
