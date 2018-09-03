@@ -214,14 +214,18 @@ public extension ShapeQRCode {
                     //try to optimize
                     //1. try to increase error correction level, if possible
                     var currentShapeQRCodeInTest = self //copy, because struct
+                    var optimizedImage: UIImage = image
                     while let currentErrorCorrectionLevel = currentShapeQRCodeInTest.errorCorrectionLevel.higher {
                         currentShapeQRCodeInTest.errorCorrectionLevel = currentErrorCorrectionLevel
                         
-                        if let newImage = try?
-                            currentShapeQRCodeInTest.image(withLength: length,
-                                                                         withIntegrityCheck: true,
-                                                                         errorCorrectionOptimization: false) {
+                        do {
+                            let newImage = try currentShapeQRCodeInTest.image(withLength: length,
+                                                                              withIntegrityCheck: true,
+                                                                              errorCorrectionOptimization:  false)
                             return newImage
+                        }
+                        catch let error as Problem.QRContainedImageEncodingProblem {
+                            optimizedImage = error.unreadableQRImage
                         }
                     }
                     
@@ -229,9 +233,9 @@ public extension ShapeQRCode {
                     //TODO:...
                     
                     //if optimization failed, throw the appropriate error indicating that optimization failed, although we've tried to optimize it
-                    throw Problem.QRContainedImageEncodingProblem.unencodableEvenAfterOptimization
+                    throw Problem.QRContainedImageEncodingProblem.unreadableEvenAfterOptimization(unreadableQR: optimizedImage)
                 }
-                throw Problem.QRContainedImageEncodingProblem.unencodable
+                throw Problem.QRContainedImageEncodingProblem.unreadable(unreadableQR: image)
             }
             
         }
@@ -381,12 +385,19 @@ public extension ShapeQRCode {
 
 //MARK: - Errors/Problems
 public extension ShapeQRCode {
-    enum Problem: Error {
+    public enum Problem: Error {
         case percentValuesInappropriate
         
-        enum QRContainedImageEncodingProblem: Error {
-            case unencodable
-            case unencodableEvenAfterOptimization
+        public enum QRContainedImageEncodingProblem: Error {
+            case unreadable(unreadableQR: UIImage)
+            case unreadableEvenAfterOptimization(unreadableQR: UIImage)
+            
+            public var unreadableQRImage: UIImage {
+                switch self {
+                case .unreadable(let unreadableQR), .unreadableEvenAfterOptimization(let unreadableQR):
+                    return unreadableQR
+                }
+            }
         }
     }
 }
@@ -429,7 +440,7 @@ public extension ShapeQRCode {
 public extension ShapeQRCode {
     static let renderingQueue = DispatchQueue(label: "com.geroembser.ShapeQRCode.RenderingQueue", qos: .userInitiated, attributes: .concurrent)
     
-    public typealias ShapeQRCodeRenderingCompletionHandler = (UIImage?, Error?) -> Void
+    public typealias ShapeQRCodeRenderingCompletionHandler = (UIImage, Error?) -> Void
     ///Renders the ShapeQRCode as a UIImage on a background thread and calls the given closure when completed (with an error or the sucessfully rendered image)
     public func asyncImage(withLength length: CGFloat = 1000.0,
                            withIntegrityCheck integrityCheck: Bool = true,
@@ -445,10 +456,11 @@ public extension ShapeQRCode {
                 
                 completionHandler(image, nil)
             }
-            catch (let error) {
+            catch let error as Problem.QRContainedImageEncodingProblem {
                 //error
-                completionHandler(nil, error)
+                completionHandler(error.unreadableQRImage, error)
             }
+            catch { return } //do nothing
         }
     }
 }
