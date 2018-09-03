@@ -199,7 +199,7 @@ public extension ShapeQRCode {
     ///NOTE: it is possible that due to antialiasing, there are grey lines between the different modules of the QR code. to prevent antialiasing, use an appropriate size that remove antialiasing. -> TODO: add a method that automatically adjusts the length in pixels so that antialiasing-effect isn't visible.
     ///NOTE: encoding speed also depends on how much transparent areas the containedImage has (few transparent areas <-> faster ; much transparent areas <-> slower)
     public func image(withLength length: CGFloat = 1000.0,
-                      withIntegrityCheck integrityCheck: Bool = true,
+                      withIntegrityCheck integrityCheck: Bool,
                       errorCorrectionOptimization: Bool = true) throws -> UIImage {
         
         //create the image
@@ -242,6 +242,9 @@ public extension ShapeQRCode {
         
         //return the actual qr code image
         return image
+    }
+    public func image(withLength length: CGFloat) -> UIImage {
+        return try! image(withLength: length, withIntegrityCheck: false, errorCorrectionOptimization: false)
     }
 }
 
