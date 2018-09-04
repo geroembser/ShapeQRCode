@@ -16,7 +16,7 @@ s.swift_version = '4.2'
 s.source_files = 'Source/*.{swift,h,m}', 'nayuki-QR-Code-Generator/c/qrcodegen.{h,c}'
 
 #define build config stuff
-s.pod_target_xcconfig  = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/**' }
+s.pod_target_xcconfig  = { 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/**' }
 s.preserve_paths = 'module.modulemap'
 s.compiler_flags = '-w' #turn off warnings...
 
