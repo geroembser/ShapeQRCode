@@ -17,6 +17,7 @@ s.swift_version = '4.2'
 
 #define the source files
 s.source_files = 'Source/*.{swift,h,m}', 'nayuki-QR-Code-Generator/c/qrcodegen.{h,c}'
+s.private_header_files = 'Source/QRCode.h', 'nayuki-QR-Code-Generator/c/qrcodegen.h'
 
 #define build config stuff
 s.pod_target_xcconfig  = { 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/**' }
