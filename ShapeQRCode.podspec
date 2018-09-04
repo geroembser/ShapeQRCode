@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'ShapeQRCode'
-s.version = '1.0.0'
+s.version = '0.9.0'
 s.author = 'Gero Embser'
 s.homepage = 'https://github.com/geroembser/ShapeQRCode'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
@@ -13,6 +13,11 @@ s.ios.deployment_target = '12.0'
 s.swift_version = '4.2'
 
 #define the source files
-s.source_files = 'Source/*.swift'
+s.source_files = 'Source/*.{swift,h,m}', 'nayuki-QR-Code-Generator/c/qrcodegen.{h,c}'
+
+#define build config stuff
+s.pod_target_xcconfig  = { 'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/**' }
+s.preserve_paths = 'module.modulemap'
+s.compiler_flags = '-w' #turn off warnings...
 
 end
