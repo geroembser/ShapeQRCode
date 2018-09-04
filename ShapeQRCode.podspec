@@ -7,7 +7,10 @@ s.license = { :type => 'MIT', :file => 'LICENSE' }
 
 s.summary = 'Swift QR code generator where the black squares can be replaced by shapes and images can be included in the QRCode'
 
-s.source = { :git => 'https://github.com/geroembser/ShapeQRCode.git', :tag => s.version }
+s.source = { :git => 'https://github.com/geroembser/ShapeQRCode.git',
+             :tag => s.version,
+             :submodules => true
+            }
 
 s.ios.deployment_target = '12.0'
 s.swift_version = '4.2'
