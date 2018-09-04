@@ -129,6 +129,8 @@ extension QRViewController {
             containedImageHeightSlider.isEnabled = false
             containedImageHeightLabel.textColor = .gray
             containedImageHeightSlider.value = containedImageWidthSlider.value
+            
+            updateContainedImageSizeSliderUI()
         }
         else {
             containedImageHeightSlider.isEnabled = true
