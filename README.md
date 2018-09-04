@@ -1,25 +1,12 @@
 #  ShapeQRCode
 
-## Installation
 
-Preferred installation is using [CocoaPods](https://cocoapods.org).
-
-To Integrate the `ShapeQRCode` into your project using CocoaPods, specify it in your  `Podfile`:
-```
-pod 'ShapeQRCode'
-```
-
-## Usage
-For an example, see the [sample project](Example) included in this repo.
-
-```
-//examples here...
-```
-
-## Example
-This is the example app...
-![example app animated gif](.github/ShapeQRCode%20Example%20Video.gif)
+## Contributing
+Do you like that repo? Are there any issues? _(obviously there's a lot...)_ Submit a pull request, open an issue... 
+And: I'm always happy to hear your feedback! If you have any questions or suggestions, I'm glad to help you!
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Acknowledgments
+This library uses the great 🎉 QR Code generator library from [Nayuki](https://github.com/nayuki). Check it out! ➡️ [https://github.com/nayuki/QR-Code-generator](https://github.com/nayuki/QR-Code-generator)
