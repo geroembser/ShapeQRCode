@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'ShapeQRCode'
-s.version = '0.9.1'
+s.version = '0.9.2'
 s.author = 'Gero Embser'
 s.homepage = 'https://github.com/geroembser/ShapeQRCode'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
