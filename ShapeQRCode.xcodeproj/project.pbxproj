@@ -27,6 +27,7 @@
 		6B2D1AB4213C4A3B00D15441 /* ColorTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AB3213C4A3B00D15441 /* ColorTransparency.swift */; };
 		6B2D1AB6213C5F7200D15441 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AB5213C5F7200D15441 /* UIColor+Extension.swift */; };
 		6B2D1AB8213C5FB700D15441 /* QRReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D1AB7213C5FB700D15441 /* QRReading.swift */; };
+		6B31EA81213F433900D786E2 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B31EA7F213F41A600D786E2 /* String+Extension.swift */; };
 		6B4E24B62138B3B900B5F7A1 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4E24B52138B3B800B5F7A1 /* UIImage+Extension.swift */; };
 		6B4E24B82138BA4000B5F7A1 /* ColorAverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4E24B72138BA4000B5F7A1 /* ColorAverageTests.swift */; };
 		6B4E24BB2138BF7B00B5F7A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B4E24B92138BEE200B5F7A1 /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 		6B2D1AB3213C4A3B00D15441 /* ColorTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTransparency.swift; sourceTree = "<group>"; };
 		6B2D1AB5213C5F7200D15441 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		6B2D1AB7213C5FB700D15441 /* QRReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReading.swift; sourceTree = "<group>"; };
+		6B31EA7F213F41A600D786E2 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		6B4E24B52138B3B800B5F7A1 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		6B4E24B72138BA4000B5F7A1 /* ColorAverageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorAverageTests.swift; sourceTree = "<group>"; };
 		6B4E24B92138BEE200B5F7A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				6B2D1AB3213C4A3B00D15441 /* ColorTransparency.swift */,
 				6B2D1AB7213C5FB700D15441 /* QRReading.swift */,
 				6B2D1AAC213B68D900D15441 /* CGContext+Extension.swift */,
+				6B31EA7F213F41A600D786E2 /* String+Extension.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				6B4E24B62138B3B900B5F7A1 /* UIImage+Extension.swift in Sources */,
 				6B2D1AB2213C49B100D15441 /* CIImage+Extension.swift in Sources */,
 				6B04375421387E3800E771B3 /* QRCode.m in Sources */,
+				6B31EA81213F433900D786E2 /* String+Extension.swift in Sources */,
 				6B2D1AB8213C5FB700D15441 /* QRReading.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
