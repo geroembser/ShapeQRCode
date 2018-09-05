@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Examples.playground">
+   </FileRef>
+   <FileRef
       location = "container:/Users/geroembser/Developer/Helper-Apps/ShapeQRCode/ShapeQRCode.xcodeproj">
    </FileRef>
    <FileRef
