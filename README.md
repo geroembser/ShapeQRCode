@@ -42,7 +42,7 @@ let renderedQRImage = qr.image(withLength: 500)
 
 ```
 The final result looks like this: 
-![QR code with giraffe and rounded dots as modules](.github/QR%20Code%20examples/giraffeQR.png)
+<img src=".github/QR%20Code%20examples/giraffeQR.png" alt="QR code with giraffe and rounded dots as modules" width=200 height=200>
 
 _You can find this code in the [playground](Examples.playground) in this repo. Clone/Download the repo and open the [workspace](ShapeQRCode.xcworkspace). Then build using "ShapeQRCode" scheme (important!) and run the playground._
 
